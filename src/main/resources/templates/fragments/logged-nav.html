@@ -1,0 +1,14 @@
+<li>
+    <a th:href="@{/routes/add}">Add new route</a>
+</li>
+<li>
+    <a th:href="@{/profile}">Profile</a>
+</li>
+<li sec:authorize="hasRole('ADMIN')">
+    <a href="/">Admin</a>
+</li>
+<li>
+    <form th:action="@{/logout}" th:method="post">
+        <input type="submit" value="Logout">
+    </form>
+</li>
