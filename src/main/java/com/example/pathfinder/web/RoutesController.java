@@ -58,7 +58,7 @@ public class RoutesController {
                              HttpServletRequest request){
 
         String referer = request.getHeader("Referer");
-        var routeId = Long.parseLong(referer.split("")[referer.split("").length - 1]);
+        var routeId = Long.parseLong(referer.split("/")[referer.split("/").length - 1]);
         routeService.addPictureToRoute(routeId, pictureDTO);
         return "redirect:/routes/details/" + routeId;
     }

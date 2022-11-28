@@ -12,16 +12,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public final class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SendEmailService sendEmailService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, SendEmailService sendEmailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.sendEmailService = sendEmailService;
     }
 
     public void saveNewUser(UserRegistrationDTO userRegistrationDTO) {
@@ -34,7 +37,11 @@ public final class UserService {
         user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         user.setLevel(Level.BEGINNER);
 
+        sendEmailService.sendWelcomeEmail(user);
+
         userRepository.save(user);
+
+        sendEmailService.sendActivationEmail(user);
     }
 
     public void updateCurrentLoggedUser(UpdateUserDetailsDTO updateUserDetailsDTO, User user) {
@@ -49,8 +56,6 @@ public final class UserService {
         userRepository.save(user);
     }
 
-    @GetMapping("/routes/{id}")
-
     public User getUser(String username) {
         var userFromDB = userRepository.findByUsername(username);
         return userFromDB.get();
@@ -64,5 +69,16 @@ public final class UserService {
 
     public User getUserById(Long userId) {
         return userRepository.findById(userId).get();
+    }
+
+    public List<User> getAllUsers(){
+        var allUsers = userRepository.findAll();
+        return allUsers;
+    }
+
+    public void activateProfile(User user) {
+        user.setActive(true);
+
+        userRepository.save(user);
     }
 }

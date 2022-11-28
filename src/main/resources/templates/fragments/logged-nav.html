@@ -7,6 +7,15 @@
 <li sec:authorize="hasRole('ADMIN')">
     <a href="/">Admin</a>
 </li>
+<li sec:authorize="hasRole('ADMIN')">
+    <a href="/users/all">All Users</a>
+</li>
+<li sec:authorize="hasRole('ADMIN')">
+    <a href="/comment/approver">Approve Comments</a>
+</li>
+<li sec:authorize="hasRole('ADMIN')">
+    <a href="/comment/approver">Messages</a>
+</li>
 <li>
     <form th:action="@{/logout}" th:method="post">
         <input type="submit" value="Logout">

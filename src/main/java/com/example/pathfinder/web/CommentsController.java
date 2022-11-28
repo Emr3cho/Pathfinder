@@ -63,4 +63,10 @@ public class CommentsController {
         commentService.editCommentById(updateCommentDTO, currentCommentId);
         return "redirect:/routes";
     }
+
+    @GetMapping("/comment/approver")
+    public String commentApprover(){
+
+        return "redirect:/";
+    }
 }

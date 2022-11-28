@@ -202,6 +202,27 @@ img {
     box-shadow: var(--shadow);
 }
 
+#allUsers{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    row-gap: 132px;
+}
+
+
+#allUsers div{
+    background-color: white;
+}
+
+.userCard{
+    background-color: white;
+    border: 2px solid black;
+}
+
+/*div .card-body:last-child{*/
+/*    text-align: center;*/
+/*}*/
+
 /* Footer */
 footer {
     margin-top: 2rem;
@@ -317,6 +338,7 @@ body {
     position: relative;
     overflow: hidden;
     border-radius: 8px;
+    background-color: white;
     cursor: pointer;
     min-height: 65vh;
 }

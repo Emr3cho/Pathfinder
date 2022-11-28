@@ -1,0 +1,45 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title>Pathfinder</title>
+    <th:block th:replace="~{fragments/head.html}"/>
+</head>
+<body>
+<div class="wrapper">
+    <!-- Navigation -->
+    <th:block th:replace="~{fragments/header.html}"/>
+
+    <th:block th:each="comment : ${route.getCommentsSortedByData()}">
+        <div class="card rounded mb-4" style="border: 1px solid gray">
+            <div class="card-header">
+                <a class="mt-2" th:href="@{/user/details/{id}(id=${comment.getAuthor().getId()})}"><h5
+                        th:text="${comment.getAuthor().fullName}"></h5></a>
+                <small class="text-center" th:text="${comment.getCreatedFormatted()}"></small>
+            </div>
+            <div class="card-body">
+                <p th:text="${comment.getTextContent()}" class="card-text">With supporting text below as a
+                    natural lead-in to additional content.</p>
+                <div class="pb-3" th:if="${(comment.getAuthor().getId() == user.getId())}">
+                <div class="pb-3" sec:authorize="hasRole('ADMIN')">
+                    <th:block th:if="${(comment.getAuthor().getId() != user.getId())}">
+                        <a th:href="@{/comment/edit/{id}(id = ${comment.getId()})}">
+                            <button class="badge-success rounded">Approve</button>
+                        </a>
+
+                    </th:block>
+                </div>
+                <div th:if="${comment.getModifiedFormatted() != null}">
+                    <small>Last Edited: <span th:text="${comment.getModifiedFormatted()}"></span></small>
+                </div>
+            </div>
+        </div>
+    </th:block>
+
+    <script th:src="@{/js/track.js}"></script>
+    <script th:src="@{/js/comments.js}"></script>
+</div>
+<th:block th:replace="~{fragments/footer.html}"/>
+</body>
+</html>
