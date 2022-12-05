@@ -32,6 +32,7 @@ public class CurrentUserDetailsService implements UserDetailsService {
                 user.getPassword(),
                 user.getUsername(),
                 user.getFullName(),
+                user.getActive(),
                 user.
                         getRoles().
                         stream().

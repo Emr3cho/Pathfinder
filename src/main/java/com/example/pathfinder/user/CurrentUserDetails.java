@@ -12,13 +12,16 @@ public class CurrentUserDetails implements UserDetails {
     private final String password;
     private String username;
     private final String fullName;
+
+    private boolean isActive;
     private final Collection<GrantedAuthority> authorities;
 
-    public CurrentUserDetails(Long Id, String password, String username, String fullName, Collection<GrantedAuthority> authorities) {
+    public CurrentUserDetails(Long Id, String password, String username, String fullName, boolean isActive, Collection<GrantedAuthority> authorities) {
         this.Id = Id;
         this.password = password;
         this.username = username;
         this.fullName = fullName;
+        this.isActive = isActive;
         this.authorities = authorities;
     }
     public Long getId() {
@@ -49,6 +52,14 @@ public class CurrentUserDetails implements UserDetails {
 
     public String getLastName() {
         return fullName.split(" ")[1];
+    }
+
+    public boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @Override

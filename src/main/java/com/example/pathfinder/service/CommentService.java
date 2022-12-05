@@ -4,21 +4,22 @@ import com.example.pathfinder.model.Comment;
 import com.example.pathfinder.model.Route;
 import com.example.pathfinder.model.User;
 import com.example.pathfinder.model.dto.UpdateCommentDTO;
-import com.example.pathfinder.repository.CommentReposity;
+import com.example.pathfinder.repository.CommentRepository;
 import com.example.pathfinder.user.CurrentUserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CommentService {
 
-    private final CommentReposity commentReposity;
+    private final CommentRepository commentReposity;
     private final UserService userService;
     private final RouteService routeService;
 
-    public CommentService(CommentReposity commentReposity, UserService userService, RouteService routeService) {
+    public CommentService(CommentRepository commentReposity, UserService userService, RouteService routeService) {
         this.commentReposity = commentReposity;
         this.userService = userService;
         this.routeService = routeService;
@@ -56,5 +57,17 @@ public class CommentService {
         currentComment.setTextContent(updateCommentDTO.getTextContent());
         currentComment.setModified(LocalDateTime.now());
         commentReposity.save(currentComment);
+    }
+
+    public List<Comment> unapprovedComments(){
+        return commentReposity.findAllUnApprovedComments();
+    }
+
+    public void approveComment(Long commentId) {
+        Comment comment = commentReposity.findById(commentId).get();
+
+        comment.setApproved(true);
+
+        commentReposity.save(comment);
     }
 }

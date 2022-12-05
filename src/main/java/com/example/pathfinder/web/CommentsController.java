@@ -30,7 +30,7 @@ public class CommentsController {
                              Model model){
 
         String referer = request.getHeader("Referer");
-        var currentRouteId = Long.parseLong(referer.split("")[referer.split("").length - 1]);
+        var currentRouteId = Long.parseLong(referer.split("/")[referer.split("/").length - 1]);
         commentService.addNewComment(currentRouteId, addCommentDTO.getMessage());
         return "redirect:"+ referer;
     }
@@ -59,14 +59,22 @@ public class CommentsController {
     public String applyEdit(UpdateCommentDTO updateCommentDTO,
                             HttpServletRequest request){
         String referer = request.getHeader("Referer");
-        var currentCommentId = Long.parseLong(referer.split("")[referer.split("").length - 1]);
+        var currentCommentId = Long.parseLong(referer.split("/")[referer.split("/").length - 1]);
         commentService.editCommentById(updateCommentDTO, currentCommentId);
         return "redirect:/routes";
     }
 
     @GetMapping("/comment/approver")
-    public String commentApprover(){
+    public String commentApprover(Model model){
+        var allComments = commentService.unapprovedComments();
+        model.addAttribute("comments", allComments);
+        return "commentApprover";
+    }
 
-        return "redirect:/";
+    @GetMapping("/comment/approver/{id}")
+    public String commentApproverByOne(@PathVariable("id") Long commentId){
+
+        commentService.approveComment(commentId);
+        return "redirect:/comment/approver";
     }
 }

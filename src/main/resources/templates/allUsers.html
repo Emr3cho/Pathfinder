@@ -18,16 +18,23 @@
             <div class="card userCard" style="width: 18rem;">
                 <img class="card-img-top" src="/images/profile.jpg" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${user.getUsername()}">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h5 class="card-title pb-1" th:text="${user.getUsername()}">Card title</h5>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
+                <ul class="list-group list-group-flush text-center">
+                    <li class="list-group-item">
+                        <h5 class="text-left"><strong>Roles: </strong></h5>
+                        <th:block th:each="role : ${user.getRoles()}">
+                            <p class="mb-0" th:text="${role.name.name()}"></p>
+                        </th:block>
+                    </li>
+                    <li class="list-group-item"><span class="bg-secondary p-1 px-4 rounded text-white" th:text="${user.level}">Pro</span></li>
+                    <li class="list-group-item">
+                        <span th:if="${user.getActive()}" class="bg-info p-1 px-4 rounded text-white">ACTIVE</span>
+                        <span th:unless="${user.getActive()}" class="bg-info p-1 px-4 rounded text-white">NOT ACTIVE</span>
+                    </li>
                 </ul>
-                <div class="card-body">
-                    <a href="#"><button type="button" class="btn btn-info">More Info</button></a>
+                <div class="card-body text-center">
+                    <a th:href="@{/user/details/{id}(id = ${user.getId()})}"><button type="button" class="btn btn-info">More Info</button></a>
                     <a href="#"><button type="button" class="btn btn-danger">Delete</button></a>
                 </div>
             </div>

@@ -20,10 +20,14 @@ public class ActivationController {
     }
 
     @GetMapping("/activation/{id}")
-    public String activateProfile(@PathVariable("id") String id){
-        var a = activationRepository.findById(id);
-        var user = a.get().getUser();
-        userService.activateProfile(user);
-        return "redirect:/";
+    public String activateProfile(@PathVariable("id") String id) {
+        userService.activateProfile(id);
+        return "redirect:/profile";
+    }
+
+    @GetMapping("/activate/{id}")
+    public String activateProfileButton(@PathVariable("id") Long id) {
+        userService.activateProfileFromZero(id);
+        return "redirect:/profile";
     }
 }

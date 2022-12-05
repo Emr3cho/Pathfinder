@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.stream.Collectors;
 
 @RequestMapping("/routes")
 @Controller
@@ -39,7 +40,16 @@ public class RoutesController {
     }
 
     @GetMapping("/add")
-    public String addRoute(AddRouteDTO routeDTO, Model model){
+    public String addRoute(@AuthenticationPrincipal CurrentUserDetails currentLoggedUser,
+                           AddRouteDTO routeDTO,
+                           Model model,
+                           HttpServletRequest request){
+
+        if (currentLoggedUser.getActive() == false){
+            String referer = request.getHeader("Referer");
+            var endPointToRedirect = (referer.split("/", 4))[(referer.split("/", 4).length - 1)];
+            return "redirect:/" + endPointToRedirect;
+        }
         model.addAttribute("route", routeDTO);
         model.addAttribute("levels", Level.values());
         model.addAttribute("categories", CategoryName.values());
@@ -69,6 +79,7 @@ public class RoutesController {
                                @AuthenticationPrincipal CurrentUserDetails user,
                                AddPictureDTO addPictureDTO){
         Route routeFromDB = routeService.findRouteById(routeId);
+        routeFromDB.setComments(routeFromDB.getComments().stream().filter(x -> x.isApproved() == true).collect(Collectors.toSet()));
 
         model.addAttribute("picture", addPictureDTO);
         model.addAttribute("user", user);
