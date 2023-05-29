@@ -1,5 +1,6 @@
 package com.example.pathfinder.web;
 
+import com.example.pathfinder.model.Comment;
 import com.example.pathfinder.model.Route;
 import com.example.pathfinder.model.dto.AddPictureDTO;
 import com.example.pathfinder.model.dto.AddRouteDTO;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequestMapping("/routes")
@@ -45,11 +48,13 @@ public class RoutesController {
                            Model model,
                            HttpServletRequest request){
 
-        if (currentLoggedUser.getActive() == false){
+        if (!currentLoggedUser.getActive()){
             String referer = request.getHeader("Referer");
             var endPointToRedirect = (referer.split("/", 4))[(referer.split("/", 4).length - 1)];
             return "redirect:/" + endPointToRedirect;
         }
+
+        model.addAttribute("regions", this.regionsInBulgaria());
         model.addAttribute("route", routeDTO);
         model.addAttribute("levels", Level.values());
         model.addAttribute("categories", CategoryName.values());
@@ -79,11 +84,45 @@ public class RoutesController {
                                @AuthenticationPrincipal CurrentUserDetails user,
                                AddPictureDTO addPictureDTO){
         Route routeFromDB = routeService.findRouteById(routeId);
-        routeFromDB.setComments(routeFromDB.getComments().stream().filter(x -> x.isApproved() == true).collect(Collectors.toSet()));
+        routeFromDB.setComments(routeFromDB.getComments().stream().filter(Comment::isApproved).collect(Collectors.toSet()));
 
         model.addAttribute("picture", addPictureDTO);
         model.addAttribute("user", user);
         model.addAttribute("route", routeFromDB);
         return "route-details";
+    }
+
+    private List<String> regionsInBulgaria(){
+        List<String> regions = new ArrayList<>();
+        regions.add("Blagoevgrad");
+        regions.add("Burgas");
+        regions.add("Dobrich");
+        regions.add("Gabrovo");
+        regions.add("Haskovo");
+        regions.add("Kardzhali");
+        regions.add("Kyustendil");
+        regions.add("Lovech");
+        regions.add("Montana");
+        regions.add("Pazardzhik");
+        regions.add("Pernik");
+        regions.add("Pleven");
+        regions.add("Plovdiv");
+        regions.add("Razgrad");
+        regions.add("Ruse");
+        regions.add("Shumen");
+        regions.add("Silistra");
+        regions.add("Sliven");
+        regions.add("Smolyan");
+        regions.add("Sofia City");
+        regions.add("Sofia Province");
+        regions.add("Stara Zagora");
+        regions.add("Targovishte");
+        regions.add("Varna");
+        regions.add("Veliko Tarnovo");
+        regions.add("Vidin");
+        regions.add("Vratsa");
+        regions.add("Yambol");
+
+        return regions;
     }
 }

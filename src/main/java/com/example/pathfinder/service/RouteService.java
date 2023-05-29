@@ -1,6 +1,7 @@
 package com.example.pathfinder.service;
 
 import com.example.pathfinder.mapper.RouteMapper;
+import com.example.pathfinder.model.API_DTO.RouteResponse;
 import com.example.pathfinder.model.Category;
 import com.example.pathfinder.model.Picture;
 import com.example.pathfinder.model.Route;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.function.Function;
+
+import static com.example.pathfinder.model.API_DTO.RouteResponse.*;
 
 @Service
 public class RouteService {
@@ -48,6 +51,16 @@ public class RouteService {
         return delegate.apply(categoryName);
     }
 
+    public List<RouteResponse> getAllRoutesForAPI(){
+        return this.getAllRoutes().stream().map(this::routeToRouteResponseMapper).toList();
+    }
+
+    public List<RouteResponse> getAllRoutesForAPIByCategory(CategoryName categoryName){
+        return this.delegate.apply(categoryName).stream().map(this::routeToRouteResponseMapper).toList();
+    }
+
+
+
     public Route findRouteById(Long routeId) {
         Optional<Route> routeFromDB = routeRepository.findById(routeId);
         return routeFromDB.get();
@@ -56,7 +69,6 @@ public class RouteService {
     public void saveRoute(AddRouteDTO routeDTO) {
         Route routeToAdd = routeMapper.routeDTOtoRouteEntityMapper(routeDTO);
         routeToAdd.setAuthor(currentLoggedUser());
-        routeToAdd.setGpxCoordinates("someRandomText!");
         var allCategoriesToNewRoute = categoryMapper(routeDTO.getCategories());
         routeToAdd.setCategories(allCategoriesToNewRoute);
         routeRepository.save(routeToAdd);
@@ -119,6 +131,18 @@ public class RouteService {
 
         User currentLoggedUser = userService.getUser(currentUsername);
         return currentLoggedUser;
+    }
+
+    private RouteResponse routeToRouteResponseMapper(Route route){
+        return new RouteResponse(route.getId(),
+                route.getDescription(),
+                route.getLevel(),
+                route.getName(),
+                route.getAuthor(),
+                route.getCategories().stream().toList(),
+                route.getPictures().stream().toList(),
+                route.getCommentsSortedByData().stream().toList());
+
     }
 }
 

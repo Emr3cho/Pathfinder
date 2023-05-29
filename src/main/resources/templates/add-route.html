@@ -33,6 +33,19 @@
         </div>
         <div>
             <div class="form-group">
+                <label for="level">Region</label>
+                <select th:field="*{region}" id="region" class="custom-select">
+                    <!--                    <option value="BEGINNER" selected>BEGINNER</option>-->
+                    <option
+                            th:each="region : ${regions}"
+                            th:text="${region}"
+                            th:value="${region}">Model
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
                 <label for="inputDescription" class="col-form-label ">Description</label>
             </div>
             <div class="form-group">
@@ -74,14 +87,6 @@
                 </select>
             </div>
         </div>
-        <div>
-
-            <div class="form-group">
-                <label for="videoUrl">Youtube Video Url</label>
-                <input th:field="*{videoURL}" id="videoUrl" type="text"
-                       class="form-control" placeholder="Video url">
-            </div>
-       </div>
 <!--        <div>-->
 <!--            <div class="form-group">-->
 <!--                <label for="inputPictures" class="col-form-label ">Pictures (URLs)</label>-->

@@ -24,7 +24,7 @@ public class SpringSecurityConfiguration{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.
                     authorizeRequests().requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
-                    antMatchers("/", "/login", "/register", "/about").permitAll().
+                    antMatchers("/", "/login", "/register", "/about", "/api/**").permitAll().
                     anyRequest().authenticated().
                 and().
                     formLogin().loginPage("/login").

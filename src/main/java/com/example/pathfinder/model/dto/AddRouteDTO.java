@@ -7,20 +7,18 @@ import com.example.pathfinder.model.enums.Level;
 import java.util.Set;
 
 public class AddRouteDTO {
-
     private String description;
-    private String gpxCoordinates;
     private String level;
     private String name;
-    private String videoURL;
+    private String region;
     private String[] categories;
 
-    public AddRouteDTO(String description, String gpxCoordinates, String level, String name, String videoURL, String[] categories) {
+
+    public AddRouteDTO(String description, String level, String name, String region, String[] categories) {
         this.description = description;
-        this.gpxCoordinates = gpxCoordinates;
         this.level = level;
         this.name = name;
-        this.videoURL = videoURL;
+        this.region = region;
         this.categories = categories;
     }
 
@@ -30,14 +28,6 @@ public class AddRouteDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getGpxCoordinates() {
-        return gpxCoordinates;
-    }
-
-    public void setGpxCoordinates(String gpxCoordinates) {
-        this.gpxCoordinates = gpxCoordinates;
     }
 
     public String getLevel() {
@@ -56,12 +46,12 @@ public class AddRouteDTO {
         this.name = name;
     }
 
-    public String getVideoURL() {
-        return videoURL;
+    public String getRegion() {
+        return region;
     }
 
-    public void setVideoURL(String videoURL) {
-        this.videoURL = videoURL;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String[] getCategories() {

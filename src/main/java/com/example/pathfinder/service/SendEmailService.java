@@ -3,6 +3,7 @@ package com.example.pathfinder.service;
 import com.example.pathfinder.model.Activation;
 import com.example.pathfinder.model.User;
 import com.example.pathfinder.repository.ActivationRepository;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -13,7 +14,7 @@ import java.util.Properties;
 @Service
 public class SendEmailService {
     private final String from = "emre.metin2002@gmail.com";
-    private final String password = "wdrcmifwbaajuvfo";
+    private final String password = "dnzeznuyjwszdkzx";
     private final String host = "smtp.gmail.com";
     private final Properties properties = System.getProperties();
     private String to;

@@ -5,6 +5,8 @@ import com.example.pathfinder.model.dto.AddCommentDTO;
 import com.example.pathfinder.model.dto.UpdateCommentDTO;
 import com.example.pathfinder.service.CommentService;
 import com.example.pathfinder.service.UserService;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,7 +66,9 @@ public class CommentsController {
         return "redirect:/routes";
     }
 
+
     @GetMapping("/comment/approver")
+    @Secured({ "ROLE_ADMIN" })
     public String commentApprover(Model model){
         var allComments = commentService.unapprovedComments();
         model.addAttribute("comments", allComments);
@@ -72,9 +76,9 @@ public class CommentsController {
     }
 
     @GetMapping("/comment/approver/{id}")
-    public String commentApproverByOne(@PathVariable("id") Long commentId){
+    public void commentApproverByOne(@PathVariable("id") Long commentId){
 
         commentService.approveComment(commentId);
-        return "redirect:/comment/approver";
+//        return "redirect:/comment/approver";
     }
 }

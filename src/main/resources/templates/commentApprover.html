@@ -23,7 +23,7 @@
                     natural lead-in to additional content.</p>
                 <a class="mt-2" th:href="@{/routes/details/{id}(id=${comment.getRoute().getId()})}"><h5
                         th:text="${comment.getRoute().name}"></h5></a>
-                <a th:href="@{/comment/approver/{id}(id = ${comment.getId()})}"><button class="btn-success pl-3 pr-3 pt-1 pb-1 rounded border-dark">Approve</button></a>
+                <a th:href="@{/api/comment/approver/{id}(id = ${comment.getId()})}"><button class="btn-success pl-3 pr-3 pt-1 pb-1 rounded border-dark">Approve</button></a>
             </div>
 
         </div>
@@ -33,5 +33,6 @@
     <script th:src="@{/js/comments.js}"></script>
 </div>
 <th:block th:replace="~{fragments/footer.html}"/>
+<script src="/js/commentApprover.js"></script>
 </body>
 </html>

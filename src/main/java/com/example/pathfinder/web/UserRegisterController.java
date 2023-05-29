@@ -49,6 +49,6 @@ public class UserRegisterController {
 
         userService.saveNewUser(userRegistrationDTO);
 
-        return "redirect:/login";
+        return "redirect:/";
     }
 }

@@ -1,6 +1,8 @@
 package com.example.pathfinder.model;
 
 import com.example.pathfinder.model.enums.Level;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -18,18 +20,14 @@ public class Route {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Lob
-    @Column(nullable = false)
-    private String gpxCoordinates;
-
     @Enumerated(EnumType.STRING)
     private Level level;
 
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, name = "video_URL")
-    private String videoURL;
+    @Column(nullable = false, name = "region")
+    private String region;
 
     @ManyToOne
     @NotNull
@@ -39,9 +37,11 @@ public class Route {
     private Set<Category> categories;
 
     @OneToMany(targetEntity = Picture.class, mappedBy = "route", fetch = FetchType.EAGER)
+    @JsonBackReference
     private Set<Picture> pictures;
 
     @OneToMany(targetEntity = Comment.class, mappedBy = "route", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Comment> comments;
 
     public Route(){
@@ -66,14 +66,6 @@ public class Route {
         this.description = description;
     }
 
-    public String getGpxCoordinates() {
-        return gpxCoordinates;
-    }
-
-    public void setGpxCoordinates(String gpxCoordinates) {
-        this.gpxCoordinates = gpxCoordinates;
-    }
-
     public Level getLevel() {
         return level;
     }
@@ -90,12 +82,12 @@ public class Route {
         this.name = name;
     }
 
-    public String getVideoURL() {
-        return videoURL;
+    public String getRegion() {
+        return region;
     }
 
-    public void setVideoURL(String videoURL) {
-        this.videoURL = videoURL;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public User getAuthor() {
@@ -122,8 +114,7 @@ public class Route {
         return Collections.unmodifiableSet(comments);
     }
     public List<Comment> getCommentsSortedByData() {
-        var sortedList = Collections.unmodifiableList(getComments().stream().sorted(Comparator.comparing(Comment::getCreated)).collect(Collectors.toList()));
-        return sortedList;
+        return getComments().stream().sorted(Comparator.comparing(Comment::getCreated)).toList();
     }
 
     public void setComments(Set<Comment> comments) {

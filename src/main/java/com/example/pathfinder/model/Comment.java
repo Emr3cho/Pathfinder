@@ -1,5 +1,7 @@
 package com.example.pathfinder.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -34,6 +36,7 @@ public class Comment {
 
     @ManyToOne
     @NotNull
+    @JsonIgnore
     private Route route;
 
     public Comment(){

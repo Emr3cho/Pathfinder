@@ -1,5 +1,8 @@
 package com.example.pathfinder.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -19,10 +22,12 @@ public class Picture {
 
     @ManyToOne
     @NotNull
+    @JsonManagedReference
     private User author;
 
     @ManyToOne
     @NotNull
+    @JsonIgnore
     private Route route;
 
     public Picture(){
