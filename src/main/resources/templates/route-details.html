@@ -70,53 +70,6 @@
         </section>
         <section id="weather" class="weather-details">
             <h2 th:text="${route.region} + ' Weather Info'"></h2>
-            <h6 id="last-updated">last updated at: 20:15</h6>
-            <div class="image-container">
-                <img src="https://cdn.weatherapi.com/weather/64x64/day/176.png" alt="Weather Icon">
-            </div>
-            <h6 id="weather-type">partly cloudy</h6>
-            <div class="details">
-                <div class="item">
-                    <span class="label">Temperature:</span>
-                    <span class="value">25°C</span>
-                </div>
-                <div class="item">
-                    <span class="label">Feels like:</span>
-                    <span class="value">23°C</span>
-                </div>
-                <div class="item">
-                    <span class="label">Humidity:</span>
-                    <span class="value">60%</span>
-                </div>
-                <div class="item">
-                    <span class="label">Cloudiness:</span>
-                    <span class="value">40%</span>
-                </div>
-                <div class="item">
-                    <span class="label">Wind Speed:</span>
-                    <span class="value">10 km/h</span>
-                </div>
-                <div class="item">
-                    <span class="label">Pressure:</span>
-                    <span class="value">1015 hPa</span>
-                </div>
-                <div class="item">
-                    <span class="label">Visibility:</span>
-                    <span class="value">10 km</span>
-                </div>
-                <div class="item">
-                    <span class="label">UV Index:</span>
-                    <span class="value">5</span>
-                </div>
-                <div class="item">
-                    <span class="label">Sunrise:</span>
-                    <span class="value">6:00 AM</span>
-                </div>
-                <div class="item">
-                    <span class="label">Sunset:</span>
-                    <span class="value">8:00 PM</span>
-                </div>
-            </div>
         </section>
         <section class="route-description text-center">
             <h4>Description:</h4>
@@ -209,5 +162,6 @@
     <script th:src="@{/js/comments.js}"></script>
 </div>
 <th:block th:replace="~{fragments/footer.html}"/>
+<script src="/js/routeWeather.js"></script>
 </body>
 </html>
